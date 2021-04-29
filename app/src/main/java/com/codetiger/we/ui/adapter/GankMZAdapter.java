@@ -3,6 +3,7 @@ package com.codetiger.we.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import com.codetiger.we.R;
 import com.codetiger.we.data.dto.GankMeizi;
+import com.codetiger.we.data.dto.GankPicture;
 import com.codetiger.we.ui.activity.PictureDetailActivity;
 
 import java.util.ArrayList;
@@ -27,23 +29,26 @@ import java.util.ArrayList;
  */
 
 public class GankMZAdapter extends RecyclerView.Adapter<GankMZAdapter.ViewHolder> {
+    private String TAG = "GankMZAdapter";
 
     private Context mContext;
-    private ArrayList<GankMeizi> mzs = new ArrayList<>();
+    private ArrayList<GankPicture> mzs = new ArrayList<>();
 
-    public GankMZAdapter(Context mContext, ArrayList<GankMeizi> mzs) {
+    public GankMZAdapter(Context mContext, ArrayList<GankPicture> mzs) {
         this.mContext = mContext;
         this.mzs = mzs;
     }
 
-    public void addAll(ArrayList<GankMeizi> data) {
+    public void addAll(ArrayList<GankPicture> data) {
         mzs.clear();
         mzs.addAll(data);
         notifyDataSetChanged();
     }
 
-    public void loadMore(ArrayList<GankMeizi> data) {
+    public void loadMore(ArrayList<GankPicture> data) {
+        Log.d(TAG, "loadMore: ");
         mzs.addAll(data);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -70,7 +75,7 @@ public class GankMZAdapter extends RecyclerView.Adapter<GankMZAdapter.ViewHolder
             img_content = itemView.findViewById(R.id.img_content);
         }
 
-        void bind(GankMeizi data) {
+        void bind(GankPicture data) {
             Glide.with(mContext)
                     .load(data.getUrl())
                     .apply(new RequestOptions()

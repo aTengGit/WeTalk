@@ -3,7 +3,10 @@ package com.codetiger.we.net;
 
 
 import com.codetiger.we.WeInit;
+import com.codetiger.we.data.dto.GankPicture;
+import com.codetiger.we.data.dto.GankPictureAll;
 import com.codetiger.we.data.result.GankResult;
+import com.codetiger.we.data.result.GankResultNew;
 
 import io.reactivex.Flowable;
 import retrofit2.Retrofit;
@@ -53,11 +56,11 @@ public class APIService {
 //        http://yaokui.ltd:8888/1080p
 //        https://gank.io/api/v2/data/category/Girl/type/Girl/page/1/count/10
 
-/*        @GET("https://gank.io/api/v2/data/category/Girl/type/Girl/page/{page}/count/{count}")
-        Flowable<GankResult> fetchGankMZ(
-                @Path("count") int count,
-                @Path("page") int page
-        );*/
+        @GET("https://gank.io/api/v2/data/category/Girl/type/Girl/page/{page}/count/{count}")
+        Flowable<GankPictureAll> fetchGankPicture(
+                @Path("page") int page,
+                @Path("count") int count
+        );
 
     }
 

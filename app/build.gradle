@@ -8,14 +8,14 @@ def depend_lib = rootProject.ext.depend_lib
 android {
 
 
-/*    signingConfigs {
+    signingConfigs {
         release {
-            storeFile file('my.jks')
+            storeFile file('WeTalk.jks')
             storePassword '123456'
-            keyAlias 'DrySister'
-            keyPassword '654321'
+            keyAlias 'wetalk'
+            keyPassword '123456'
         }
-    }*/
+    }
     compileSdkVersion depend_android["compileSdkVersion"]
 /*    compileSdkVersion 30
     buildToolsVersion "30.0.2"*/

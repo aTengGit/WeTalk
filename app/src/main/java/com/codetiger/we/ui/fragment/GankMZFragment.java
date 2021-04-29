@@ -22,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codetiger.we.R;
 import com.codetiger.we.data.dto.GankMeizi;
+import com.codetiger.we.data.dto.GankPicture;
 import com.codetiger.we.net.APIService;
 import com.codetiger.we.ui.adapter.GankMZAdapter;
 import com.codetiger.we.utils.ResUtils;
@@ -51,7 +52,7 @@ public class GankMZFragment extends Fragment {
     private GankMZAdapter mAdapter;
     private static final int PRELOAD_SIZE = 6;
     private int mCurPage = 1;
-    private ArrayList<GankMeizi> mData;
+    private ArrayList<GankPicture> mData;
     private final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
 
     public static GankMZFragment newInstance() {
@@ -73,14 +74,26 @@ public class GankMZFragment extends Fragment {
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         rec_mz.setLayoutManager(layoutManager);
         rec_mz.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+//                Log.d(TAG, "onScrolled: dx: "+dx +", dy: "+dy);
+            }
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                Log.d(TAG, "onScrollStateChanged: newState : "+newState+", recyclerView: " +recyclerView);
                 super.onScrollStateChanged(recyclerView, newState);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {//加载更多
-                    if (layoutManager.getItemCount() - recyclerView.getChildCount() <= layoutManager.findFirstVisibleItemPosition()) {
+                    Log.d(TAG, "layoutManager.getItemCount(): "+layoutManager.getItemCount());
+                    Log.d(TAG, "recyclerView.getChildCount(): "+recyclerView.getChildCount());
+                    Log.d(TAG, "layoutManager.findFirstVisibleItemPosition(): "+layoutManager.findFirstVisibleItemPosition());
+                    if (layoutManager.getItemCount() - recyclerView.getChildCount() >= layoutManager.findFirstVisibleItemPosition()) {
                         ++mCurPage;
                         fetchGankMZ(false);
+                        Log.d(TAG, "update: ");
                     }
                 }
                 if (layoutManager.findFirstVisibleItemPosition() != 0) {
@@ -122,7 +135,7 @@ public class GankMZFragment extends Fragment {
     }
 
     /* 拉取妹子数据 */
-    private void fetchGankMZ(boolean isRefresh) {
+/*    private void fetchGankMZ(boolean isRefresh) {
         Log.d(TAG, "fetchGankMZ: ");
         Disposable subscribe = APIService.getInstance().apis.fetchGankMZ(20, mCurPage)
                 .subscribeOn(Schedulers.io())
@@ -132,6 +145,28 @@ public class GankMZFragment extends Fragment {
                 .subscribe(data -> {
                     if(data != null && data.getResults() != null && data.getResults().size() > 0) {
                         ArrayList<GankMeizi> results = data.getResults();
+                        if (isRefresh) {
+                            mAdapter.addAll(results);
+                            ToastUtils.shortToast(ResUtils.getString(R.string.refresh_success));
+                        } else {
+                            mAdapter.loadMore(results);
+                            String msg = String.format(ResUtils.getString(R.string.load_more_num),results.size(),"妹子");
+                            ToastUtils.shortToast(msg);
+                        }
+                    }
+                }, RxSchedulers::processRequestException);
+        mSubscriptions.add(subscribe);
+    }*/
+    private void fetchGankMZ(boolean isRefresh) {
+        Log.d(TAG, "fetchGankMZ: ");
+        Disposable subscribe = APIService.getInstance().apis.fetchGankPicture(mCurPage, 20)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(subscription -> srl_refresh.setRefreshing(true))
+                .doFinally(() -> srl_refresh.setRefreshing(false))
+                .subscribe(data -> {
+                    if(data != null && data.getPictures() != null && data.getPictures().size() > 0) {
+                        ArrayList<GankPicture> results = data.getPictures();
                         if (isRefresh) {
                             mAdapter.addAll(results);
                             ToastUtils.shortToast(ResUtils.getString(R.string.refresh_success));
