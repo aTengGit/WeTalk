@@ -1,10 +1,11 @@
 package com.codetiger.we.ui.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.codetiger.we.R;
 import com.codetiger.we.ui.fragment.SettingFragment;
@@ -15,7 +16,7 @@ import com.r0adkll.slidr.Slidr;
  *
  */
 
-public class SettingActivity extends AppCompatActivity{
+public class SettingActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
 

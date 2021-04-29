@@ -48,11 +48,12 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation depend_lib["junit"]
-    implementation depend_lib["appcompat-v7"]
-    implementation depend_lib["design"]
-    implementation depend_lib["cardview"]
-    implementation depend_lib["constraint-layout"]
+//    implementation depend_lib["appcompat-v7"]
+//    implementation depend_lib["design"]
+//    implementation depend_lib["cardview"]
+//    implementation depend_lib["constraint-layout"]
     implementation depend_lib["phoneView"]
     implementation depend_lib["slidr"]
     implementation depend_lib["roundedimageview"]
@@ -66,4 +67,11 @@ dependencies {
     implementation depend_lib["glide"]
     annotationProcessor depend_lib["glide-compiler"]
     implementation depend_lib["timber"]
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.drawerlayout:drawerlayout:1.0.0' //DrawerLayout
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0' //androidx AppBarLayout, CollapsingToolbarLayout etc.
+    implementation 'androidx.webkit:webkit:1.0.0' //androidx webview
+
 }

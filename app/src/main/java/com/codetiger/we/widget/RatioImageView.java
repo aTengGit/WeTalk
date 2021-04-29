@@ -4,13 +4,15 @@ package com.codetiger.we.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatImageView;
+
 /**
  * 描述：根据宽度自适应的ImageView
  *
  * @author CoderPig on 2018/02/14 16:25.
  */
 
-public class RatioImageView extends android.support.v7.widget.AppCompatImageView{
+public class RatioImageView extends AppCompatImageView {
     private int originalWidth;
     private int originalHeight;
 
