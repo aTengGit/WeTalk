@@ -90,7 +90,7 @@ public class GankMZFragment extends Fragment {
                     Log.d(TAG, "layoutManager.getItemCount(): "+layoutManager.getItemCount());
                     Log.d(TAG, "recyclerView.getChildCount(): "+recyclerView.getChildCount());
                     Log.d(TAG, "layoutManager.findFirstVisibleItemPosition(): "+layoutManager.findFirstVisibleItemPosition());
-                    if (layoutManager.getItemCount() - recyclerView.getChildCount() >= layoutManager.findFirstVisibleItemPosition()) {
+                    if (layoutManager.getItemCount() - recyclerView.getChildCount() <= layoutManager.findFirstVisibleItemPosition()) {
                         ++mCurPage;
                         fetchGankMZ(false);
                         Log.d(TAG, "update: ");

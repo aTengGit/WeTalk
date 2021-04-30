@@ -6,7 +6,7 @@ import com.codetiger.we.WeInit;
 import com.codetiger.we.data.dto.GankPicture;
 import com.codetiger.we.data.dto.GankPictureAll;
 import com.codetiger.we.data.result.GankResult;
-import com.codetiger.we.data.result.GankResultNew;
+
 
 import io.reactivex.Flowable;
 import retrofit2.Retrofit;
