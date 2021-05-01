@@ -43,10 +43,10 @@ public class APIService {
                 .build();
         apis = storeRestAPI.create(APIs.class);
     }
-
+/*
     public interface APIs{
 
-        /* Gank.io 妹子图 */
+        *//* Gank.io 妹子图 *//*
         @GET("http://gank.io/api/data/福利/{count}/{page}")
         Flowable<GankResult> fetchGankMZ(
                 @Path("count") int count,
@@ -62,6 +62,6 @@ public class APIService {
                 @Path("count") int count
         );
 
-    }
+    }*/
 
 }

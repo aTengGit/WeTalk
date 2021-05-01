@@ -10,7 +10,7 @@
     <!-- 抽屉菜单 -->
     <string name="menu_see">看看</string>
     <string name="menu_see_little_sister">看YOU</string>
-    <string name="menu_see_news">读书看报</string>
+    <string name="menu_see_one_pic">看看图片</string>
 
     <string name="menu_use">用用</string>
     <string name="menu_use_check_weather">查查天气</string>

@@ -6,13 +6,13 @@
     <item android:title="@string/menu_see">
         <menu>
             <item
+                android:id="@+id/nav_see_one_pic"
+                android:icon="@drawable/ic_menu_news"
+                android:title="@string/menu_see_one_pic" />
+            <item
                 android:id="@+id/nav_see_little_sister"
                 android:icon="@drawable/ic_menu_sister"
                 android:title="@string/menu_see_little_sister" />
-            <item
-                android:id="@+id/nav_see_news"
-                android:icon="@drawable/ic_menu_news"
-                android:title="@string/menu_see_news" />
         </menu>
     </item>
 

@@ -20,9 +20,10 @@ import androidx.fragment.app.FragmentManager;
 import com.codetiger.we.WeConstant;
 import com.codetiger.we.R;
 import com.codetiger.we.ui.fragment.LittleSisterFragment;
-import com.codetiger.we.ui.fragment.NewsFragment;
 import com.codetiger.we.ui.fragment.SubwayFragment;
+import com.codetiger.we.ui.fragment.PictureOneFragment;
 import com.codetiger.we.ui.fragment.ToolsFragment;
+import com.codetiger.we.ui.fragment.VerticalPictureFragment;
 import com.codetiger.we.ui.fragment.WeatherFragment;
 import com.codetiger.we.utils.PackageUtils;
 import com.codetiger.we.utils.ResUtils;
@@ -67,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initData() {
         mFgManager.beginTransaction().replace(R.id.cly_main_content,
-                LittleSisterFragment.newInstance(), WeConstant.FG_LITTLE_SISTER).commit();
-        toolbar.setTitle(ResUtils.getString(R.string.menu_see_little_sister));
+                VerticalPictureFragment.newInstance(), WeConstant.FG_LITTLE_SISTER).commit();
+        toolbar.setTitle(ResUtils.getString(R.string.menu_see_one_pic));
         String version = PackageUtils.packageName();
         if(version != null) {
             String msg = String.format(ResUtils.getString(R.string.menu_drysister_version), version);
@@ -86,11 +87,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     toolbar.setTitle(ResUtils.getString(R.string.menu_see_little_sister));
                 }
                 break;
-            case R.id.nav_see_news:
-                if (mFgManager.findFragmentByTag(WeConstant.FG_NEWS) == null) {
+            case R.id.nav_see_one_pic:
+               /* if (mFgManager.findFragmentByTag(WeConstant.FG_NEWS) == null) {
                     mFgManager.beginTransaction().replace(R.id.cly_main_content,
                             NewsFragment.newInstance(), WeConstant.FG_NEWS).commit();
-                    toolbar.setTitle(ResUtils.getString(R.string.menu_see_news));
+                    toolbar.setTitle(ResUtils.getString(R.string.menu_see_one_pic));
+                }*/
+                if (mFgManager.findFragmentByTag(WeConstant.FG_NEWS) == null) {
+                    mFgManager.beginTransaction().replace(R.id.cly_main_content,
+                            VerticalPictureFragment.newInstance(), WeConstant.FG_NEWS).commit();
+                    toolbar.setTitle(ResUtils.getString(R.string.menu_see_one_pic));
                 }
                 break;
             case R.id.nav_use_check_weather:
