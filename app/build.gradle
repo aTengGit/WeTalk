@@ -15,6 +15,12 @@ android {
             keyAlias 'wetalk'
             keyPassword '123456'
         }
+        debug {
+            storeFile file('WeTalk.jks')
+            storePassword '123456'
+            keyAlias 'wetalk'
+            keyPassword '123456'
+        }
     }
     compileSdkVersion depend_android["compileSdkVersion"]
 /*    compileSdkVersion 30
@@ -34,10 +40,17 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        android.applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = "WeTalk.apk"
+            }
         }
     }
     compileOptions {
@@ -50,10 +63,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation depend_lib["junit"]
-//    implementation depend_lib["appcompat-v7"]
-//    implementation depend_lib["design"]
-//    implementation depend_lib["cardview"]
-//    implementation depend_lib["constraint-layout"]
     implementation depend_lib["phoneView"]
     implementation depend_lib["slidr"]
     implementation depend_lib["roundedimageview"]
