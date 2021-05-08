@@ -15,27 +15,35 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codetiger.we.R;
 import com.codetiger.we.net.APIService;
+import com.codetiger.we.ui.adapter.OnePictureAdapter;
+import com.codetiger.we.utils.RxSchedulers;
 import com.codetiger.we.utils.ToastUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subscribers.DisposableSubscriber;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PictureOneFragment extends Fragment {
-    private int SUCCESS = 1;
-    private int ERROR = 0;
     private String TAG = "TestFragment";
-    private Handler handler;
     private SwipeRefreshLayout srl_refresh;
+    private OnePictureAdapter adapter;
+    private RecyclerView rec_mz;
+    private ResponseBody responseBody;
 
     private FloatingActionButton fab_top;
     private ImageView img;
@@ -52,82 +60,52 @@ public class PictureOneFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_one_picture, container, false);
         fab_top = view.findViewById(R.id.fab_top1);
-        img = view.findViewById(R.id.image_test);
+        rec_mz = view.findViewById(R.id.rec_mz);
         srl_refresh = view.findViewById(R.id.srl_refresh);
-        return view;
+        responseBody = null;
+        adapter = new OnePictureAdapter(getActivity(),responseBody);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),1);
+        rec_mz.setLayoutManager(layoutManager);
 
+        fab_top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showImg();
+            }
+        });
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated: 22222222");
+        Log.d(TAG, "onViewCreated: ");
         super.onViewCreated(view, savedInstanceState);
         mSubscriptions = new CompositeDisposable();
         srl_refresh.setOnRefreshListener(() -> {
             showImg();
         });
-
+        rec_mz.setAdapter(adapter);
         srl_refresh.setRefreshing(true);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showImg();
-            }
-        });
-        initHandler();
         showImg();
     }
 
-    private void initHandler() {
-        handler = new Handler() {
-            @SuppressLint("HandlerLeak")
-            @Override
-            public void handleMessage(@SuppressLint("HandlerLeak") @NonNull Message msg) {
-                super.handleMessage(msg);
-                if (msg.what == SUCCESS) {
-                    byte[] Picture = (byte[]) msg.obj;
-                    //使用BitmapFactory工厂，把字节数组转化为bitmap
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
-                    //通过imageview，设置图片
-                    img.setImageBitmap(bitmap);
-                } else {
-                    ToastUtils.longToast("网络请求失败！！！");
-                    ToastUtils.longToast((String) msg.obj);
-                }
-            }
-        };
-    }
 
     private void showImg() {
-        APIService.getInstance().apis.getPicture()
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        srl_refresh.setRefreshing(false);
-                        Log.d(TAG, "toString: " + response.toString());
-                        Log.d(TAG, "body: " + response.body());
-                        Log.d(TAG, "message: " + response.raw().message());
-                        Log.d(TAG, "headers: " + response.headers());
-                        try {
-                            byte[] Picture_bt = response.body().bytes();
-                            Message message = handler.obtainMessage();
-                            message.obj = Picture_bt;
-                            message.what = SUCCESS;
-                            handler.sendMessage(message);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+        Disposable subscribe = APIService.getInstance().apis.getPicture()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(subscription -> srl_refresh.setRefreshing(true))
+                .doFinally(() -> srl_refresh.setRefreshing(false))
+                .subscribe(data->{
+                    adapter.loadPicture(data);
+                }, RxSchedulers::processRequestException);
+        mSubscriptions.add(subscribe);
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Message message = handler.obtainMessage();
-                        message.obj = t;
-                        message.what = ERROR;
-                        handler.sendMessage(message);
-                    }
-                });
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mSubscriptions.clear();
+    }
 }

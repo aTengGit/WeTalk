@@ -28,5 +28,5 @@ public interface APIs {
     );
 
     @GET("http://yaokui.ltd:8888/lmms_images")
-    Call<ResponseBody> getPicture();
+    Flowable<ResponseBody> getPicture();
 }

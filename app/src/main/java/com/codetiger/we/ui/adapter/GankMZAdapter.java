@@ -58,6 +58,7 @@ public class GankMZAdapter extends RecyclerView.Adapter<GankMZAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder: ");
         holder.bind(mzs.get(position));
     }
 
@@ -67,7 +68,7 @@ public class GankMZAdapter extends RecyclerView.Adapter<GankMZAdapter.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-
+        private static final String TAG = "ViewHolder";
         ImageView img_content;
 
         ViewHolder(View itemView) {
@@ -76,6 +77,7 @@ public class GankMZAdapter extends RecyclerView.Adapter<GankMZAdapter.ViewHolder
         }
 
         void bind(GankPicture data) {
+            Log.d(TAG, "bind: ");
             Glide.with(mContext)
                     .load(data.getUrl())
                     .apply(new RequestOptions()

@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initData() {
         mFgManager.beginTransaction().replace(R.id.cly_main_content,
-                VerticalPictureFragment.newInstance(), WeConstant.FG_LITTLE_SISTER).commit();
+                VerticalPictureFragment.newInstance(), WeConstant.FG_VERTICAl_PICTURE).commit();
         toolbar.setTitle(ResUtils.getString(R.string.menu_see_one_pic));
         String version = PackageUtils.packageName();
         if(version != null) {
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_see_little_sister:
+                Log.d(TAG, "onNavigationItemSelected:"+(mFgManager.findFragmentByTag(WeConstant.FG_LITTLE_SISTER)==null));
                 if (mFgManager.findFragmentByTag(WeConstant.FG_LITTLE_SISTER) == null) {
                     mFgManager.beginTransaction().replace(R.id.cly_main_content,
                             LittleSisterFragment.newInstance(), WeConstant.FG_LITTLE_SISTER).commit();
@@ -88,14 +89,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.nav_see_one_pic:
-               /* if (mFgManager.findFragmentByTag(WeConstant.FG_NEWS) == null) {
+               /* if (mFgManager.findFragmentByTag(WeConstant.FG_VERTICAl_PICTURE) == null) {
                     mFgManager.beginTransaction().replace(R.id.cly_main_content,
-                            NewsFragment.newInstance(), WeConstant.FG_NEWS).commit();
+                            NewsFragment.newInstance(), WeConstant.FG_VERTICAl_PICTURE).commit();
                     toolbar.setTitle(ResUtils.getString(R.string.menu_see_one_pic));
                 }*/
-                if (mFgManager.findFragmentByTag(WeConstant.FG_NEWS) == null) {
+                if (mFgManager.findFragmentByTag(WeConstant.FG_VERTICAl_PICTURE) == null) {
                     mFgManager.beginTransaction().replace(R.id.cly_main_content,
-                            VerticalPictureFragment.newInstance(), WeConstant.FG_NEWS).commit();
+                            VerticalPictureFragment.newInstance(), WeConstant.FG_VERTICAl_PICTURE).commit();
                     toolbar.setTitle(ResUtils.getString(R.string.menu_see_one_pic));
                 }
                 break;

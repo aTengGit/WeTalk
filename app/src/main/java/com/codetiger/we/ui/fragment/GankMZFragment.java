@@ -38,7 +38,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * 描述：Gank.io妹子Fragment
+ * 描述：妹子Fragment
  *
  */
 
@@ -63,6 +63,7 @@ public class GankMZFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         View view = inflater.inflate(R.layout.fragment_mz_content, container, false);
         srl_refresh = view.findViewById(R.id.srl_refresh);
         rec_mz = view.findViewById(R.id.rec_mz);
@@ -165,6 +166,7 @@ public class GankMZFragment extends Fragment {
                 .doOnSubscribe(subscription -> srl_refresh.setRefreshing(true))
                 .doFinally(() -> srl_refresh.setRefreshing(false))
                 .subscribe(data -> {
+                    Log.d(TAG, "fetchGankMZ: data:" +data);
                     if(data != null && data.getPictures() != null && data.getPictures().size() > 0) {
                         ArrayList<GankPicture> results = data.getPictures();
                         if (isRefresh) {
