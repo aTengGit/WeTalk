@@ -25,6 +25,7 @@ import com.codetiger.we.ui.fragment.SubwayFragment;
 import com.codetiger.we.ui.fragment.ToolsFragment;
 import com.codetiger.we.ui.fragment.VerticalPictureFragment;
 import com.codetiger.we.ui.fragment.WeatherFragment;
+import com.codetiger.we.utils.LogUtil;
 import com.codetiger.we.utils.PackageUtils;
 import com.codetiger.we.utils.ResUtils;
 import com.google.android.material.navigation.NavigationView;
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_see_picture:
-                Log.d(TAG, "onNavigationItemSelected:"+(mFgManager.findFragmentByTag(WeConstant.FG_PICTURE)==null));
+                LogUtil.d(TAG, "onNavigationItemSelected:"+(mFgManager.findFragmentByTag(WeConstant.FG_PICTURE)==null));
                 if (mFgManager.findFragmentByTag(WeConstant.FG_PICTURE) == null) {
                     mFgManager.beginTransaction().replace(R.id.cly_main_content,
                             PictureFragment.newInstance(), WeConstant.FG_PICTURE).commit();
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        Log.d(TAG, "onBackPressed: ");
+        LogUtil.d(TAG, "onBackPressed: ");
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START);
         } else {

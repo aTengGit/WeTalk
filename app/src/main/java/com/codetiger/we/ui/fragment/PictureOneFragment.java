@@ -22,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.codetiger.we.R;
 import com.codetiger.we.net.APIService;
 import com.codetiger.we.ui.adapter.OnePictureAdapter;
+import com.codetiger.we.utils.LogUtil;
 import com.codetiger.we.utils.RxSchedulers;
 import com.codetiger.we.utils.ToastUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -78,7 +79,7 @@ public class PictureOneFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated: ");
+        LogUtil.d(TAG, "onViewCreated: ");
         super.onViewCreated(view, savedInstanceState);
         mSubscriptions = new CompositeDisposable();
         srl_refresh.setOnRefreshListener(() -> {

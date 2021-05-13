@@ -20,6 +20,7 @@ import com.codetiger.we.R;
 import com.codetiger.we.data.dto.GankMeizi;
 import com.codetiger.we.data.dto.GankPicture;
 import com.codetiger.we.ui.activity.PictureDetailActivity;
+import com.codetiger.we.utils.LogUtil;
 
 import java.util.ArrayList;
 
@@ -46,7 +47,7 @@ public class GankMZAdapter extends RecyclerView.Adapter<GankMZAdapter.ViewHolder
     }
 
     public void loadMore(ArrayList<GankPicture> data) {
-        Log.d(TAG, "loadMore: ");
+        LogUtil.d(TAG, "loadMore: ");
         mzs.addAll(data);
         notifyDataSetChanged();
     }
@@ -58,7 +59,7 @@ public class GankMZAdapter extends RecyclerView.Adapter<GankMZAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: ");
+        LogUtil.d(TAG, "onBindViewHolder: ");
         holder.bind(mzs.get(position));
     }
 
@@ -77,7 +78,7 @@ public class GankMZAdapter extends RecyclerView.Adapter<GankMZAdapter.ViewHolder
         }
 
         void bind(GankPicture data) {
-            Log.d(TAG, "bind: ");
+            LogUtil.d(TAG, "bind: ");
             Glide.with(mContext)
                     .load(data.getUrl())
                     .apply(new RequestOptions()

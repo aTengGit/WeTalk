@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.codetiger.we.R;
+import com.codetiger.we.utils.LogUtil;
 import com.google.android.material.tabs.TabLayout;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -36,7 +37,7 @@ public class PictureFragment extends Fragment {
     protected CompositeDisposable mSubscriptions;
 
     public static PictureFragment newInstance() {
-        Log.d(TAG, "newInstance: ");
+        LogUtil.d(TAG, "newInstance: ");
         PictureFragment fragment = new PictureFragment();
         return fragment;
     }
@@ -44,7 +45,7 @@ public class PictureFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: ");
+        LogUtil.d(TAG, "onCreateView: ");
         View view = inflater.inflate(R.layout.fragment_little_sister, container, false);
         tl_little_sister = view.findViewById(R.id.tl_little_sister);
         vp_content = view.findViewById(R.id.vp_content);
@@ -53,7 +54,7 @@ public class PictureFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated: ");
+        LogUtil.d(TAG, "onViewCreated: ");
         super.onViewCreated(view, savedInstanceState);
         mContext = getActivity();
         mSubscriptions = new CompositeDisposable();
@@ -72,12 +73,12 @@ public class PictureFragment extends Fragment {
 
         private TabFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
-            Log.d(TAG, "TabFragmentPagerAdapter: ");
+            LogUtil.d(TAG, "TabFragmentPagerAdapter: ");
         }
 
         @Override
         public Fragment getItem(int position) {
-            Log.d(TAG, "getItem: ");
+            LogUtil.d(TAG, "getItem: ");
             if (position != 0) {
                 return GankMZFragment.newInstance();
             }
@@ -87,13 +88,13 @@ public class PictureFragment extends Fragment {
 
         @Override
         public int getCount() {
-            Log.d(TAG, "getCount: ");
+            LogUtil.d(TAG, "getCount: ");
             return mTitles.length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Log.d(TAG, "getPageTitle: position: " + position);
+            LogUtil.d(TAG, "getPageTitle: position: " + position);
             return mTitles[position];
         }
     }

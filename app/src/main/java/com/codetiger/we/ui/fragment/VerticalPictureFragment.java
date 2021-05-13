@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.codetiger.we.R;
+import com.codetiger.we.utils.LogUtil;
 import com.google.android.material.tabs.TabLayout;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -33,7 +34,7 @@ public class VerticalPictureFragment extends Fragment {
 
 
     public static VerticalPictureFragment newInstance() {
-        Log.d(TAG, "newInstance: ");
+        LogUtil.d(TAG, "newInstance: ");
         VerticalPictureFragment fragment = new VerticalPictureFragment();
         return fragment;
     }
@@ -41,7 +42,7 @@ public class VerticalPictureFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: ");
+        LogUtil.d(TAG, "onCreateView: ");
         View view = inflater.inflate(R.layout.fragment_verticel_pic_sister, container, false);
         tl_verticel_pic = view.findViewById(R.id.tl_verticel_pic);
         vp_content = view.findViewById(R.id.vp_content);
@@ -57,7 +58,7 @@ public class VerticalPictureFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated: ");
+        LogUtil.d(TAG, "onViewCreated: ");
         super.onViewCreated(view, savedInstanceState);
         mContext = getActivity();
         mSubscriptions = new CompositeDisposable();
@@ -72,12 +73,12 @@ public class VerticalPictureFragment extends Fragment {
 
         private TabFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
-            Log.d(TAG, "TabFragmentPagerAdapter: ");
+            LogUtil.d(TAG, "TabFragmentPagerAdapter: ");
         }
 
         @Override
         public Fragment getItem(int position) {
-            Log.d(TAG, "getItem: " + position);
+            LogUtil.d(TAG, "getItem: " + position);
             if (position == 0){
                 return PictureOneFragment.newInstance();
             }
@@ -86,13 +87,13 @@ public class VerticalPictureFragment extends Fragment {
 
         @Override
         public int getCount() {
-            Log.d(TAG, "getCount: ");
+            LogUtil.d(TAG, "getCount: ");
             return mTitles.length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            Log.d(TAG, "getPageTitle: position: " + position);
+            LogUtil.d(TAG, "getPageTitle: position: " + position);
             return mTitles[position];
         }
     }

@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.codetiger.we.R;
 import com.codetiger.we.data.dto.GankPicture;
 import com.codetiger.we.ui.activity.PictureDetailActivity;
+import com.codetiger.we.utils.LogUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,13 +35,13 @@ public class OnePictureAdapter extends RecyclerView.Adapter<OnePictureAdapter.Vi
     private ResponseBody responseBody;
 
     public OnePictureAdapter(Context mContext, ResponseBody res) {
-        Log.d(TAG, "OnePictureAdapter: ");
+        LogUtil.d(TAG, "OnePictureAdapter: ");
         this.mContext = mContext;
         this.responseBody = res;
     }
 
     public void loadPicture(ResponseBody rb){
-        Log.d(TAG, "loadPicture: ");
+        LogUtil.d(TAG, "loadPicture: ");
         responseBody = rb;
         notifyDataSetChanged();
     }
@@ -53,7 +54,7 @@ public class OnePictureAdapter extends RecyclerView.Adapter<OnePictureAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: ");
+        LogUtil.d(TAG, "onBindViewHolder: ");
         holder.bind(responseBody);
     }
 
@@ -84,7 +85,7 @@ public class OnePictureAdapter extends RecyclerView.Adapter<OnePictureAdapter.Vi
                                 .centerCrop())
                         .into(img_content);
             } catch (IOException e) {
-                Log.e(TAG, "error: "+e);
+                LogUtil.e(TAG, "error: "+e);
                 e.printStackTrace();
             }
 

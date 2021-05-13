@@ -25,6 +25,7 @@ import com.codetiger.we.data.dto.GankMeizi;
 import com.codetiger.we.data.dto.GankPicture;
 import com.codetiger.we.net.APIService;
 import com.codetiger.we.ui.adapter.GankMZAdapter;
+import com.codetiger.we.utils.LogUtil;
 import com.codetiger.we.utils.ResUtils;
 import com.codetiger.we.utils.RxSchedulers;
 import com.codetiger.we.utils.ToastUtils;
@@ -63,7 +64,7 @@ public class GankMZFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: ");
+        LogUtil.d(TAG, "onCreateView: ");
         View view = inflater.inflate(R.layout.fragment_mz_content, container, false);
         srl_refresh = view.findViewById(R.id.srl_refresh);
         rec_mz = view.findViewById(R.id.rec_mz);
@@ -79,22 +80,22 @@ public class GankMZFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-//                Log.d(TAG, "onScrolled: dx: "+dx +", dy: "+dy);
+//                LogUtil.d(TAG, "onScrolled: dx: "+dx +", dy: "+dy);
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                Log.d(TAG, "onScrollStateChanged: newState : "+newState+", recyclerView: " +recyclerView);
+                LogUtil.d(TAG, "onScrollStateChanged: newState : "+newState+", recyclerView: " +recyclerView);
                 super.onScrollStateChanged(recyclerView, newState);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {//加载更多
-                    Log.d(TAG, "layoutManager.getItemCount(): "+layoutManager.getItemCount());
-                    Log.d(TAG, "recyclerView.getChildCount(): "+recyclerView.getChildCount());
-                    Log.d(TAG, "layoutManager.findFirstVisibleItemPosition(): "+layoutManager.findFirstVisibleItemPosition());
+                    LogUtil.d(TAG, "layoutManager.getItemCount(): "+layoutManager.getItemCount());
+                    LogUtil.d(TAG, "recyclerView.getChildCount(): "+recyclerView.getChildCount());
+                    LogUtil.d(TAG, "layoutManager.findFirstVisibleItemPosition(): "+layoutManager.findFirstVisibleItemPosition());
                     if (layoutManager.getItemCount() - recyclerView.getChildCount() <= layoutManager.findFirstVisibleItemPosition()) {
                         ++mCurPage;
                         fetchGankMZ(false);
-                        Log.d(TAG, "update: ");
+                        LogUtil.d(TAG, "update: ");
                     }
                 }
                 if (layoutManager.findFirstVisibleItemPosition() != 0) {
@@ -137,7 +138,7 @@ public class GankMZFragment extends Fragment {
 
     /* 拉取妹子数据 */
 /*    private void fetchGankMZ(boolean isRefresh) {
-        Log.d(TAG, "fetchGankMZ: ");
+        LogUtil.d(TAG, "fetchGankMZ: ");
         Disposable subscribe = APIService.getInstance().apis.fetchGankMZ(20, mCurPage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -159,14 +160,14 @@ public class GankMZFragment extends Fragment {
         mSubscriptions.add(subscribe);
     }*/
     private void fetchGankMZ(boolean isRefresh) {
-        Log.d(TAG, "fetchGankMZ: ");
+        LogUtil.d(TAG, "fetchGankMZ: ");
         Disposable subscribe = APIService.getInstance().apis.fetchGankPicture(mCurPage, 20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(subscription -> srl_refresh.setRefreshing(true))
                 .doFinally(() -> srl_refresh.setRefreshing(false))
                 .subscribe(data -> {
-                    Log.d(TAG, "fetchGankMZ: data:" +data);
+                    LogUtil.d(TAG, "fetchGankMZ: data:" +data);
                     if(data != null && data.getPictures() != null && data.getPictures().size() > 0) {
                         ArrayList<GankPicture> results = data.getPictures();
                         if (isRefresh) {
@@ -184,7 +185,7 @@ public class GankMZFragment extends Fragment {
 
     /* 悬浮按钮显示动画 */
     private void fabInAnim() {
-        Log.d(TAG, "fabInAnim: ");
+        LogUtil.d(TAG, "fabInAnim: ");
         if (fab_top.getVisibility() == View.GONE) {
             fab_top.setVisibility(View.VISIBLE);
             ViewCompat.animate(fab_top).scaleX(1.0F).scaleY(1.0F).alpha(1.0F)
@@ -194,7 +195,7 @@ public class GankMZFragment extends Fragment {
 
     /* 悬浮图标隐藏动画 */
     private void fabOutAnim() {
-        Log.d(TAG, "fabOutAnim: ");
+        LogUtil.d(TAG, "fabOutAnim: ");
         if (fab_top.getVisibility() == View.VISIBLE) {
             ViewCompat.animate(fab_top).scaleX(0.0F).scaleY(0.0F).alpha(0.0F)
                     .setInterpolator(INTERPOLATOR).withLayer().setListener(new ViewPropertyAnimatorListener() {
