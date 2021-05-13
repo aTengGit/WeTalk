@@ -27,7 +27,7 @@ import io.reactivex.disposables.CompositeDisposable;
  *
  */
 
-public class LittleSisterFragment extends Fragment {
+public class PictureFragment extends Fragment {
     private static String TAG = "LittleSisterFragment";
 
     private Context mContext;
@@ -35,9 +35,9 @@ public class LittleSisterFragment extends Fragment {
     private ViewPager vp_content;
     protected CompositeDisposable mSubscriptions;
 
-    public static LittleSisterFragment newInstance() {
+    public static PictureFragment newInstance() {
         Log.d(TAG, "newInstance: ");
-        LittleSisterFragment fragment = new LittleSisterFragment();
+        PictureFragment fragment = new PictureFragment();
         return fragment;
     }
 
@@ -68,7 +68,7 @@ public class LittleSisterFragment extends Fragment {
     }
 
     private class TabFragmentPagerAdapter extends FragmentPagerAdapter {
-        private final String[] mTitles = {"Gank.io"};
+        private final String[] mTitles = {"Picture","Gank"};
 
         private TabFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -78,7 +78,11 @@ public class LittleSisterFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             Log.d(TAG, "getItem: ");
-            return GankMZFragment.newInstance();
+            if (position != 0) {
+                return GankMZFragment.newInstance();
+            }
+            return PictureOneFragment.newInstance();
+
         }
 
         @Override

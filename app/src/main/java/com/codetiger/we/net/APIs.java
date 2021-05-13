@@ -26,7 +26,7 @@ public interface APIs {
             @Path("page") int page,
             @Path("count") int count
     );
-
-    @GET("http://yaokui.ltd:8888/lmms_images")
+//    http://yaokui.ltd:8888/1080p
+    @GET("http://yaokui.ltd:8888/1080p")
     Flowable<ResponseBody> getPicture();
 }

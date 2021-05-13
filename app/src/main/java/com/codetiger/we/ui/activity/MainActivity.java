@@ -19,9 +19,9 @@ import androidx.fragment.app.FragmentManager;
 
 import com.codetiger.we.WeConstant;
 import com.codetiger.we.R;
-import com.codetiger.we.ui.fragment.LittleSisterFragment;
+import com.codetiger.we.ui.fragment.NewsFragment;
+import com.codetiger.we.ui.fragment.PictureFragment;
 import com.codetiger.we.ui.fragment.SubwayFragment;
-import com.codetiger.we.ui.fragment.PictureOneFragment;
 import com.codetiger.we.ui.fragment.ToolsFragment;
 import com.codetiger.we.ui.fragment.VerticalPictureFragment;
 import com.codetiger.we.ui.fragment.WeatherFragment;
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initData() {
         mFgManager.beginTransaction().replace(R.id.cly_main_content,
-                VerticalPictureFragment.newInstance(), WeConstant.FG_VERTICAl_PICTURE).commit();
-        toolbar.setTitle(ResUtils.getString(R.string.menu_see_one_pic));
+                PictureFragment.newInstance(), WeConstant.FG_PICTURE).commit();
+        toolbar.setTitle(ResUtils.getString(R.string.menu_see_picture));
         String version = PackageUtils.packageName();
         if(version != null) {
             String msg = String.format(ResUtils.getString(R.string.menu_drysister_version), version);
@@ -80,24 +80,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_see_little_sister:
-                Log.d(TAG, "onNavigationItemSelected:"+(mFgManager.findFragmentByTag(WeConstant.FG_LITTLE_SISTER)==null));
-                if (mFgManager.findFragmentByTag(WeConstant.FG_LITTLE_SISTER) == null) {
+            case R.id.nav_see_picture:
+                Log.d(TAG, "onNavigationItemSelected:"+(mFgManager.findFragmentByTag(WeConstant.FG_PICTURE)==null));
+                if (mFgManager.findFragmentByTag(WeConstant.FG_PICTURE) == null) {
                     mFgManager.beginTransaction().replace(R.id.cly_main_content,
-                            LittleSisterFragment.newInstance(), WeConstant.FG_LITTLE_SISTER).commit();
-                    toolbar.setTitle(ResUtils.getString(R.string.menu_see_little_sister));
+                            PictureFragment.newInstance(), WeConstant.FG_PICTURE).commit();
+                    toolbar.setTitle(ResUtils.getString(R.string.menu_see_picture));
                 }
                 break;
-            case R.id.nav_see_one_pic:
-               /* if (mFgManager.findFragmentByTag(WeConstant.FG_VERTICAl_PICTURE) == null) {
+            case R.id.nav_see_news:
+                if (mFgManager.findFragmentByTag(WeConstant.FG_NEWS) == null) {
                     mFgManager.beginTransaction().replace(R.id.cly_main_content,
-                            NewsFragment.newInstance(), WeConstant.FG_VERTICAl_PICTURE).commit();
-                    toolbar.setTitle(ResUtils.getString(R.string.menu_see_one_pic));
-                }*/
-                if (mFgManager.findFragmentByTag(WeConstant.FG_VERTICAl_PICTURE) == null) {
-                    mFgManager.beginTransaction().replace(R.id.cly_main_content,
-                            VerticalPictureFragment.newInstance(), WeConstant.FG_VERTICAl_PICTURE).commit();
-                    toolbar.setTitle(ResUtils.getString(R.string.menu_see_one_pic));
+                            NewsFragment.newInstance(), WeConstant.FG_NEWS).commit();
+                    toolbar.setTitle(ResUtils.getString(R.string.menu_see_news));
                 }
                 break;
             case R.id.nav_use_check_weather:

@@ -19,6 +19,10 @@ import com.google.android.material.tabs.TabLayout;
 
 import io.reactivex.disposables.CompositeDisposable;
 
+/**
+ * 目前没有作用了
+ *
+ */
 public class VerticalPictureFragment extends Fragment {
     private static String TAG = "VerticalPictureFragment";
 
@@ -64,7 +68,7 @@ public class VerticalPictureFragment extends Fragment {
 
 
     private class TabFragmentPagerAdapter extends FragmentPagerAdapter {
-        private final String[] mTitles = {"picture"};
+        private final String[] mTitles = {"picture","test"};
 
         private TabFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -73,8 +77,11 @@ public class VerticalPictureFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            Log.d(TAG, "getItem: ");
-            return PictureOneFragment.newInstance();
+            Log.d(TAG, "getItem: " + position);
+            if (position == 0){
+                return PictureOneFragment.newInstance();
+            }
+            return GankMZFragment.newInstance();
         }
 
         @Override

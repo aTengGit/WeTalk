@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Picture;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,23 +76,19 @@ public class OnePictureAdapter extends RecyclerView.Adapter<OnePictureAdapter.Vi
         }
 
         void bind(ResponseBody data) {
-            byte[] Picture = new byte[0];
+
             try {
-                Picture = data.bytes();
-                Log.d(TAG, "bind: "+Picture);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(Picture, 0, Picture.length);
-                img_content.setImageBitmap(bitmap);
+                Glide.with(mContext)
+                        .load(data.bytes())
+                        .apply(new RequestOptions()
+                                .centerCrop())
+                        .into(img_content);
             } catch (IOException e) {
                 Log.e(TAG, "error: "+e);
                 e.printStackTrace();
             }
 
-           /* Glide.with(mContext)
-                    .load(data.getUrl())
-                    .apply(new RequestOptions()
-                            .centerCrop())
-                    .into(img_content);
-            img_content.setOnClickListener(view -> {
+/*            img_content.setOnClickListener(view -> {
                 Intent intent = new Intent(mContext, PictureDetailActivity.class);
                 intent.putExtra("pic_url", data.getUrl());
                 mContext.startActivity(intent);
