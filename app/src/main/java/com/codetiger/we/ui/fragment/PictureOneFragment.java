@@ -23,6 +23,7 @@ import com.codetiger.we.R;
 import com.codetiger.we.net.APIService;
 import com.codetiger.we.ui.adapter.OnePictureAdapter;
 import com.codetiger.we.utils.LogUtil;
+import com.codetiger.we.utils.ResUtils;
 import com.codetiger.we.utils.RxSchedulers;
 import com.codetiger.we.utils.ToastUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -99,9 +100,9 @@ public class PictureOneFragment extends Fragment {
                 .doFinally(() -> srl_refresh.setRefreshing(false))
                 .subscribe(data->{
                     adapter.loadPicture(data);
+                    ToastUtils.shortToast(ResUtils.getString(R.string.refresh_success));
                 }, RxSchedulers::processRequestException);
         mSubscriptions.add(subscribe);
-
     }
 
     @Override
