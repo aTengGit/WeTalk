@@ -97,6 +97,8 @@
          \ncom.github.bumptech.glide:compiler
          \ncom.jakewharton.timber:timber
     </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

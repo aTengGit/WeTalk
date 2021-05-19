@@ -62,6 +62,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation depend_lib["junit"]
     implementation depend_lib["phoneView"]
     implementation depend_lib["slidr"]

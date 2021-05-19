@@ -69,7 +69,7 @@ public class PictureFragment extends Fragment {
     }
 
     private class TabFragmentPagerAdapter extends FragmentPagerAdapter {
-        private final String[] mTitles = {"Picture","Gank"};
+        private final String[] mTitles = {"Picture","Two","Gank"};
 
         private TabFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -79,11 +79,18 @@ public class PictureFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             LogUtil.d(TAG, "getItem: ");
-            if (position != 0) {
+         /*   switch (position){
+                case 0: return PictureOneFragment.newInstance();
+                case 1: return GankMZFragment.newInstance();
+                case 2: return PictureTwoFragment.newInstance();
+            }*/
+
+            if (position ==1 ){
+                return PictureTwoFragment.newInstance();
+            } else if (position == 2){
                 return GankMZFragment.newInstance();
             }
             return PictureOneFragment.newInstance();
-
         }
 
         @Override
