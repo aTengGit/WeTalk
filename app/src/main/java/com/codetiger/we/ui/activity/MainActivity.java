@@ -3,7 +3,6 @@ package com.codetiger.we.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -19,11 +18,10 @@ import androidx.fragment.app.FragmentManager;
 
 import com.codetiger.we.WeConstant;
 import com.codetiger.we.R;
-import com.codetiger.we.ui.fragment.NewsFragment;
+import com.codetiger.we.ui.fragment.MusicFragment;
 import com.codetiger.we.ui.fragment.PictureFragment;
 import com.codetiger.we.ui.fragment.SubwayFragment;
 import com.codetiger.we.ui.fragment.ToolsFragment;
-import com.codetiger.we.ui.fragment.VerticalPictureFragment;
 import com.codetiger.we.ui.fragment.WeatherFragment;
 import com.codetiger.we.utils.LogUtil;
 import com.codetiger.we.utils.PackageUtils;
@@ -90,10 +88,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.nav_see_news:
-                if (mFgManager.findFragmentByTag(WeConstant.FG_NEWS) == null) {
+                if (mFgManager.findFragmentByTag(WeConstant.FG_MUSIC) == null) {
                     mFgManager.beginTransaction().replace(R.id.cly_main_content,
-                            NewsFragment.newInstance(), WeConstant.FG_NEWS).commit();
-                    toolbar.setTitle(ResUtils.getString(R.string.menu_see_news));
+                            MusicFragment.newInstance(), WeConstant.FG_MUSIC).commit();
+                    toolbar.setTitle(ResUtils.getString(R.string.menu_see_music));
                 }
                 break;
             case R.id.nav_use_check_weather:

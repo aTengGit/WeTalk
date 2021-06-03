@@ -1,12 +1,12 @@
 package com.codetiger.we.net;
 
 import com.codetiger.we.data.dto.GankPictureAll;
+import com.codetiger.we.data.result.MusicResult;
 import com.codetiger.we.data.dto.Picture;
 import com.codetiger.we.data.result.GankResult;
 
 import io.reactivex.Flowable;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -37,4 +37,11 @@ public interface APIs {
     Flowable<Picture> getPictureTwo(
             @Query("sort") String category,
             @Query("format") String format);
+
+
+    @GET("https://api.uomg.com/api/rand.music")
+    Flowable<MusicResult> getMusic(
+            @Query("format") String format,
+            @Query("sort") String category
+    );
 }

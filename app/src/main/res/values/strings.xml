@@ -10,7 +10,7 @@
     <!-- 抽屉菜单 -->
     <string name="menu_see">看看</string>
     <string name="menu_see_picture">看图片</string>
-    <string name="menu_see_news">看新闻</string>
+    <string name="menu_see_music">听音乐</string>
 
     <string name="menu_use">用用</string>
     <string name="menu_use_check_weather">查查天气</string>
@@ -53,6 +53,7 @@
     <string name="about_drysister_detail">
         我根据小猪所更改了一下：
         \n\n我的仓库：https://github.com/aTengGit/WeTalk
+        \n\n 我删除了support用androidx代替
         \n\n底下是原作者写的
         \n\nDrySister，直译干妹子，是小猪2016年写的Android基础入门教程附带的实战项目，
         项目开源，遵循GPL v3协议，
