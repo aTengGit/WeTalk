@@ -47,6 +47,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.http.HEAD;
 
 
 /**
@@ -85,7 +86,6 @@ public class MusicFragment extends Fragment {
         MusicFragment musicFragment = new MusicFragment();
         return musicFragment;
     }
-
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
