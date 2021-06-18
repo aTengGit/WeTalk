@@ -101,5 +101,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string-array name="music_category">
+        <item>热歌榜</item>
+        <item>新歌榜</item>
+        <item>飙升榜</item>
+        <item>抖音榜</item>
+        <item>电音榜</item>
+    </string-array>
 
 </resources>
