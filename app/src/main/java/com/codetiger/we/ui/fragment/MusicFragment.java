@@ -5,19 +5,24 @@ import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
+import android.media.MediaMetadata;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +36,7 @@ import com.codetiger.we.data.dto.Music;
 import com.codetiger.we.net.APIService;
 import com.codetiger.we.utils.LogUtil;
 import com.codetiger.we.utils.RxSchedulers;
+import com.codetiger.we.utils.ThreadPoolManager;
 import com.codetiger.we.utils.ToastUtils;
 
 import java.io.IOException;
@@ -50,6 +56,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MusicFragment extends Fragment {
     private String TAG = "liuhu";
     private static final int UPDATEPROGRESS = 1;
+    private static final int PLAYMUSIC = 2;
     protected boolean mIsAudioFocusGained = false;
     private AudioAttributes mAttributes = null;
     private AudioFocusRequest mFocusRequest = null;
@@ -61,10 +68,17 @@ public class MusicFragment extends Fragment {
     private SeekBar mSeekBar;
     private Boolean FLAG = true;
     private CompositeDisposable mSubscriptions;
+    private String music_category = "热歌榜";
+
+    private Boolean FLAG_UPDATE = true;
 
     private MediaPlayer mMediaPlayer;
     private Timer timer;
     private TimerTask task;
+    private Spinner mSpinner;
+    private ThreadPoolManager mThreadPoolManager;
+    private UpdateProgress updateProgress;
+    private RequestMusicTask requestMusicTask;
 
 
     public static MusicFragment newInstance() {
@@ -72,19 +86,27 @@ public class MusicFragment extends Fragment {
         return musicFragment;
     }
 
-    private final Handler handler = new Handler() {
-        @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
+        public boolean handleMessage(@NonNull Message message) {
+            switch (message.what) {
                 case UPDATEPROGRESS:
-                    mSeekBar.setProgress(msg.arg1);
+                    if (null != mMediaPlayer){
+                        try {
+                            mSeekBar.setProgress(mMediaPlayer.getCurrentPosition());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                     break;
+                case PLAYMUSIC :
+                    doHandlerResult((Music) message.obj);
                 default:
                     break;
             }
+            return true;
         }
-    };
+    });
 
 
     @Nullable
@@ -95,11 +117,12 @@ public class MusicFragment extends Fragment {
         mTextView = view.findViewById(R.id.music_name);
         mTextView2 = view.findViewById(R.id.music_artist);
         mSeekBar = view.findViewById(R.id.music_prog);
-
+        mSpinner = view.findViewById(R.id.spinner_music);
         startBt = view.findViewById(R.id.bt_start);
         stopBt = view.findViewById(R.id.bt_stop);
         nextBt = view.findViewById(R.id.bt_next);
         mSubscriptions = new CompositeDisposable();
+        mThreadPoolManager = ThreadPoolManager.getInstance();
         mAudioManager = (AudioManager) getActivity().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 
 
@@ -112,7 +135,7 @@ public class MusicFragment extends Fragment {
         nextBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getMusic();
+                getMusic(music_category);
             }
         });
 
@@ -156,42 +179,64 @@ public class MusicFragment extends Fragment {
                 }
             }
         });
-        if (FLAG) {
-            getMusic();
+
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                music_category = (String) mSpinner.getSelectedItem();
+                getMusic(music_category);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        if (!FLAG) {
+            getMusic(music_category);
         }
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
 
     @Override
     public void onStop() {
         super.onStop();
-        if (task != null){
-            task.cancel();
-        }
-        if (timer != null){
-            timer.cancel();
-        }
+        LogUtil.d(TAG,"123");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        LogUtil.d(TAG,"123456");
+        mThreadPoolManager.remove(updateProgress);
+        mThreadPoolManager.remove(requestMusicTask);
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        LogUtil.d(TAG,"123456789");
         if (null != mMediaPlayer) {
+            mMediaPlayer.setOnPreparedListener(null);
+            mMediaPlayer.setOnCompletionListener(null);
+            mMediaPlayer.setOnErrorListener(null);
             mMediaPlayer.reset();
             mMediaPlayer.release();
         }
         mSubscriptions.clear();
+        FLAG_UPDATE= false;
     }
 
-    private void getMusic() {
-        Disposable subscribe = APIService.getInstance().apis.getMusic("json","飙升榜")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(data -> {
-                    doHandlerResult(data.getData());
-//                    LogUtil.d("liuhu",""+data);
-
-                }, RxSchedulers::processRequestException);
-        mSubscriptions.add(subscribe);
+    private void getMusic(String category) {
+        requestMusicTask = new RequestMusicTask();
+        mThreadPoolManager.execute(requestMusicTask);
     }
 
     private void doHandlerResult(Music music) {
@@ -306,21 +351,10 @@ public class MusicFragment extends Fragment {
             LogUtil.d(TAG, "onPrepared");
             mMediaPlayer.start();
             mSeekBar.setMax(mMediaPlayer.getDuration());
-            timer = new Timer();
-            task = new TimerTask() {
-                public void run() {
-                    Message message = Message.obtain();
-                    message.what = UPDATEPROGRESS;
-                    message.arg1 = mediaPlayer.getCurrentPosition();
-                    handler.sendMessage(message);
-                    LogUtil.d(TAG, "mediaPlayer.getCurrentPosition(): " + mMediaPlayer.getCurrentPosition());
-                    LogUtil.d(TAG, "mediaPlayer.isPlaying(): " + mMediaPlayer.isPlaying());
-                }
-            };
-            if (mediaPlayer != null || mediaPlayer.isPlaying()) {
-                timer.schedule(task, Toast.LENGTH_LONG, 1000);//0秒后执行，每隔50ms执行一次
-            }
+            updateProgress = new UpdateProgress();
+            mThreadPoolManager.execute(updateProgress);
         }
+
     }
 
     private class MyCompletionListener implements MediaPlayer.OnCompletionListener {
@@ -328,7 +362,7 @@ public class MusicFragment extends Fragment {
         public void onCompletion(MediaPlayer mediaPlayer) {
             LogUtil.d(TAG, "onCompletion");
             mSeekBar.setProgress(0);
-            getMusic();
+            getMusic(music_category);
         }
     }
 
@@ -338,6 +372,50 @@ public class MusicFragment extends Fragment {
             LogUtil.e(TAG, "onError");
 
             return false;
+        }
+    }
+
+
+    class RequestMusicTask implements Runnable {
+
+/*        private String category;
+        public RequestMusicTask(String category) {
+            super();
+            this.category = category;
+            LogUtil.d(TAG,"类别为："+category+"的歌曲请求中...");
+        }*/
+        @Override
+        public void run() {
+            LogUtil.d(TAG, "类别为："+music_category+"的歌曲请求中...");
+            Disposable subscribe = null;
+            subscribe = APIService.getInstance().apis.getMusic("json",music_category)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(data -> {
+                        Message message = Message.obtain();
+                        message.what = PLAYMUSIC;
+                        message.obj =data.getData();
+                        handler.sendMessage(message);
+                    }, RxSchedulers::processRequestException);
+            mSubscriptions.add(subscribe);
+        }
+    }
+
+
+    class UpdateProgress implements Runnable {
+        @Override
+        public void run() {
+            LogUtil.d(TAG,"更新进度条");
+            try {
+                while (FLAG_UPDATE) {
+                    Message message = Message.obtain();
+                    message.what = UPDATEPROGRESS;
+                    handler.sendMessage(message);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
