@@ -29,7 +29,7 @@ public interface APIs {
             @Path("count") int count
     );
 //    http://yaokui.ltd:8888/1080p
-    @GET("http://yaokui.ltd:8888/1080p")
+    @GET("http://yaokui.ltd:8888/lmms_images")
     Flowable<ResponseBody> getPicture();
 
 //    https://api.uomg.com/api/rand.img2?sort=%E7%BE%8E%E5%A5%B3&format=json

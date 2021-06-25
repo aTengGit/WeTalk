@@ -61,7 +61,7 @@
 
         </TextView>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/Re_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,17 +78,17 @@
                 android:id="@+id/bt_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:text="播放">
             </Button>
             <Button
                 android:id="@+id/bt_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="280dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:text="下一首">
             </Button>
-        </RelativeLayout>
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

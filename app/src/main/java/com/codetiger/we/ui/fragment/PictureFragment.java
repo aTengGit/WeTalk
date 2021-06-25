@@ -69,7 +69,7 @@ public class PictureFragment extends Fragment {
     }
 
     private class TabFragmentPagerAdapter extends FragmentPagerAdapter {
-        private final String[] mTitles = {"Picture","Two","Gank"};
+        private final String[] mTitles = {"Picture","Two"/*,"Gank"*/};
 
         private TabFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -88,7 +88,8 @@ public class PictureFragment extends Fragment {
             if (position ==1 ){
                 return PictureTwoFragment.newInstance();
             } else if (position == 2){
-                return GankMZFragment.newInstance();
+//                return GankMZFragment.newInstance();
+                LogUtil.d(TAG,"11111");
             }
             return PictureOneFragment.newInstance();
         }
