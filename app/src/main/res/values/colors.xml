@@ -10,4 +10,5 @@
     <color name="heavy_divider">#EEEEEE</color>
     <color name="purple">#C89EC4</color>
     <color name="green">#67D5B5</color>
+    <color name="control_background">#cc4285f4</color>
 </resources>

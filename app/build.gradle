@@ -83,5 +83,10 @@ dependencies {
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.0.0'
     implementation 'com.google.android.material:material:1.0.0' //androidx AppBarLayout, CollapsingToolbarLayout etc.
     implementation 'androidx.webkit:webkit:1.0.0' //androidx webview
+    //Facebook Spring动画库
+    api 'com.facebook.rebound:rebound:0.3.8'
+    //权限申请
+    api 'com.yanzhenjie:permission:2.0.0-rc11'
+    api 'androidx.appcompat:appcompat:1.2.0'
 
 }

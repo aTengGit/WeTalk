@@ -86,7 +86,7 @@ public class MusicFragment extends Fragment {
         MusicFragment musicFragment = new MusicFragment();
         return musicFragment;
     }
-    private Handler handler = new Handler(new Handler.Callback() {
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message message) {
             switch (message.what) {

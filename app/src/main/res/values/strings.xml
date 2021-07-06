@@ -22,6 +22,25 @@
     <string name="menu_else_about">关于</string>
     <string name="menu_drysister_version">WeTalk Version: %1$s</string>
 
+
+
+    <!-- camera权限申请-->
+    <string name="picture">Picture</string>
+    <string name="description_info">Info</string>
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+
+    <string name="intro_message">
+        <![CDATA[
+
+
+            This sample demonstrates the basic use of Camera2 API. Check the source code to see how
+            you can display camera preview and take pictures.
+
+
+        ]]>
+    </string>
+
     <!-- Working -->
     <string name="working">前方正在施工&#8230;</string>
 

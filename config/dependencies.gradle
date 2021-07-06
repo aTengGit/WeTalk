@@ -14,9 +14,9 @@ def timberViersion = "4.6.1"
 
 project.ext {
     depend_android = [
-            compileSdkVersion: 30,
+            compileSdkVersion: 29,
             minSdkVersion    : 21,
-            targetSdkVersion : 30,
+            targetSdkVersion : 29,
     ]
 
     depend_lib = [
